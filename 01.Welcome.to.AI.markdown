@@ -1,0 +1,99 @@
+Chapter 01
+----------
+
+### Intelligent Agents
+
+An intelligent agent interacts with the environment, perceiving its state with sensors and affects its state with actuators. They make decisions based on these factors. The loop in which this happens is called 'Perception-Action Cycle'
+
+
+### Applications of AI
+
+Finance: Trading agents that determine when to buy or sell assets
+
+Robotics: robots that move and behave according to the environment
+
+Games: characters that seem to think and better opponents
+
+Medicine: systems that help diagnose patients according to symptoms
+
+The Web: crawlers that collect information and infer page relevance
+
+
+### Terminology
+
+#### Environments
+
+Fully observable
+* view all cards is possible
+* sensors can see the entire state of the environment
+
+Partially observable
+* view of some cards is possible
+* sensors can see a fraction state of the environment, possibly memorizing them
+
+--------------------------------------------------
+
+Deterministic
+* actions are predictable
+* a given move of a chess piece will always result the same
+
+Stochastic
+* actions are not predictable
+* rolling of dice will be different each time
+
+--------------------------------------------------
+
+Discrete
+* possible actions are finite
+* chess board
+
+Continuous
+* possible actions are infinite
+* throw of dart
+
+--------------------------------------------------
+
+Benign
+* stochastic environment with no intention to harm
+
+Adversarial
+* environment will try to harm/defeat
+
+#### Quiz
+
+The game of checkers is:
+* Fully observable
+* Deterministic
+* Discrete
+* Adversarial *
+
+The game of poker is:
+* Partially observable
+* Stochastic
+* Discrete
+* Adversarial
+
+Robotic car is:
+* Partially observable
+* Stochastic
+* Continuous
+* Benign
+
+
+### AI and Uncertainty
+
+* Uncertainty management
+* What to do when you don't know what to do
+* Reasons of uncertainty:
+    * Sensor limits
+    * Adversaries
+    * Stochastic environments
+    * Laziness
+    * Ignorance
+
+
+### Machine Translation
+
+Translate form 50 languages to any of the 50 languages based on examples. Look for words in a given language and associate to words (or small sentences) in the other language (e.g. in a chinese restaurant menu, associate 'chicken', 'corn cream', and 'soup' with its characters in chinese).
+
+
