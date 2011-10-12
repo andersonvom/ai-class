@@ -99,8 +99,63 @@ It could be called Best Estimated Total Cost First. The optimal solution will be
 * h is optimistic
 * h is admissable to be used to find the lowest cost path
 
-Coming up with the heuristics is the hardest part, but it can be done automatically. 
+### An optimistic h function finds the lowest cost path
+	f = g + h
+	h(s) < true cost(s -> G)
+	
+Since new paths are explored cheapest first, then all paths in and beyond the frontier (besides the goal) must have a cost greater than the cost of the goal. This is true for non-negative step costs.
 
+### State Spaces
 
+They don't need to be in 2D, like the road problem. For example, the vacuum robot problem can have a different state space:
+	The number of positions for the robot to be (2)
+	Each space may have dirt in it or not (2^2)
+	Total number of states: 2x(2^2) = 8
 
+If we add new constraints, the problem may be even more complicated:
+	The robot has a camera that can be: on, off (2)
+	The robot has a power switch that can be: on, off, sleep (3)
+	The robot has a brush that has 5 heights (5)
+	The number of positions for the robot to be (10)
+	Each space may have dirt in it or not (2^10)
+	Total number of states: 2x3x5x10x(2^10) = 307.200
+
+### Automatic Heuristics
+
+Coming up with the heuristics is the hardest part, but it can be done automatically by simply manipulating the formal rules of the problem. This is called **generating a relaxed problem**.
+
+Example: In the sliding blocks puzzle, we can manipulate the formal rules to come up with heuristics.
+	a block can move A -> B
+	if (A adjacent to B)
+	and (B is blank)
+
+* _h1_: we cross out both rules and have the number of displaced blocks
+* _h2_: we cross out the 2nd rule and have the distance to the correct place
+* _h_: `max(h1, h2)` is admissible as long as _h1_ and _h2_ are admissible, but can take long to compute
+
+This is like adding new operators, or adding new links in the state space, which will only make the problem easier and thus, never overestimating.
+	o ---> o ---> o
+	  \---------/
+
+### Problem-solving works when the domain/environment is:
+
+* **Fully observable**, i.e. we must be able to see the initial state we start out with.
+* **Known**, i.e. the set of available actions must be known
+* **Discrete**, i.e. finite number of actions
+* **Deterministic**, i.e. the result of the action must be known
+* **Static**, i.e. nothing changes the world besides our actions
+
+### Implementation
+
+For a given path `A ---> S ---> F`, we have three nodes. A _node_ can be represented as a data structure (linked list) with four fields:
+* state: indicates the state at the end of the path (F)
+* action: action to get there (SF)
+* cost: total cost (n)
+* parent: pointer to another node (S) that has a parent that points to another node (A) that has a null parent.
+
+There is the _frontier_ and the _explored_ list.
+
+The _frontier_ has three operations: removing the best item and adding new ones and a membership test. A priority queue seems good because it knows how to keep track of best items in order. Building it from a hash table or a tree makes it possible to check for membership.
+
+The _explored_ has two operations: add new members and check for membership. It can be represented as a set with a hash table or a tree.
 
