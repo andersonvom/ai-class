@@ -99,6 +99,7 @@ It could be called Best Estimated Total Cost First. The optimal solution will be
 * h is optimistic
 * h is admissable to be used to find the lowest cost path
 
+Coming up with the heuristics is the hardest part, but it can be done automatically. 
 
 
 
