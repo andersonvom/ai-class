@@ -1,0 +1,105 @@
+## Problem Solving
+
+### What is a Problem?
+
+A problem can be broken down into these components:
+
+* Initial state (e.g. the agent being in a given city)
+* Actions(s) is a set of possible actions when the agent is in a given state, not necessarily dependant on the state.
+* Result(s,a) -> s' is the new state after the agent performed a given action
+* GoalTest(s) -> T|F telling whether the state is the goal or not
+* PathCost(s->s->s) -> n which takes a set of states and actions and returns its cost
+    * StepCost(s,a,s') -> n which is the cost of a single step/action
+
+### Parts of a state
+
+* Frontier: the ends of the paths (furthest explored part)
+* Explored region
+* Unexplored region
+
+### Tree Search
+
+	function tree_search(problem)
+   	frontier = { [initial] }
+	   loop:
+	      if frontier is empty: return FAIL
+	      path = remove_choice(frontier)
+	      s = path.end
+	      if goal_test(s): return path
+	      for a in actions:
+	         add [path + a -> Result(s,a)] to frontier
+
+Cons: doesn't keep track of explored states and may go back to previously visited state
+
+### Graph Search
+
+	function graph_search(problem)
+   	frontier = { [initial] }
+        explored = {}
+	   loop:
+	      if frontier is empty: return FAIL
+	      path = remove_choice(frontier)
+	      s = path.end
+              add s to explored
+	      if goal_test(s): return path
+	      for a in actions:
+	         add [path + a -> Result(s,a)] to frontier unless Result(s,a) in frontier+explored
+
+Keeping track of previously explored states and the frontier, the algorithm is capable of eliminating cycles.
+
+### Breadth-First Search
+
+It will choose the shortest length path (size-wise and not cost-wise) to be expanded first. It will try to look for all children of a given node before going further to their grandchildren.
+
+### Uniform Cost Search (Cheapest First Search)
+
+The algorithm will expand the node which contains the cheapest total cost first. It guarantees it is the cheapest path because that path will be expanded before more expensive ones.
+
+It expands paths like a topological map, expanding paths up to a given distance, and then further.
+
+It is expected to expand half of the space before getting to the goal. If the space is large, that could be time consuming.
+
+### Depth-First Seach
+
+It always expands the longest path first. It's 'the opposite' of the Breadth-First Search.
+
+### Search Comparison
+
+Breadth-First and Cheapest-First are both optimal algorithms in terms of shortest and cheapest paths, respectively (assuming the cost is always positive). Depth-First is not optimal in terms of shortest path.
+
+Depth-First search, on the other hand, has a great advantage in terms of space, because when keeping track of the frontier, it will always contain _n_ states, while the other two will contain roughly 2^n states.
+
+Both Breadth-First and Cheapest-First are complete. That is, if there is a solution, they are guaranteed to find it, even if the tree is infinite. The Depth-First search is not guaranteed in this case.
+
+### Greedy Best-First Search
+
+It uses an estimate of the distance towards the goal (e.g. the straigh line distance between the starting point and the goal) to guess what it should expand next. This is optimal if there are no obstacles.
+
+However, it is not guaranteed to find the optimal solution if there are obstacles. 
+
+	            \              ......
+	S .........  \             G  / .
+	           .  \              / .
+	            .  ----         / .
+	             ..... \-------/ .
+	                  ...........
+
+
+### A* Search
+
+It always expands the path with minimum f function, where:
+
+	f = g + h
+	g(path) = path cost
+	h(path) = h(s) = estimated distance to the goal
+
+It could be called Best Estimated Total Cost First. The optimal solution will be found depending of the heuristic function h. This will happen when:
+* h(s) < true cost
+* h never overestimate
+* h is optimistic
+* h is admissable to be used to find the lowest cost path
+
+
+
+
+
