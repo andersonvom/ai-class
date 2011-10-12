@@ -20,7 +20,7 @@ A problem can be broken down into these components:
 ### Tree Search
 
 	function tree_search(problem)
-   	frontier = { [initial] }
+	frontier = { [initial] }
 	   loop:
 	      if frontier is empty: return FAIL
 	      path = remove_choice(frontier)
@@ -34,13 +34,13 @@ Cons: doesn't keep track of explored states and may go back to previously visite
 ### Graph Search
 
 	function graph_search(problem)
-   	frontier = { [initial] }
-        explored = {}
+	frontier = { [initial] }
+	explored = {}
 	   loop:
 	      if frontier is empty: return FAIL
 	      path = remove_choice(frontier)
 	      s = path.end
-              add s to explored
+	      add s to explored
 	      if goal_test(s): return path
 	      for a in actions:
 	         add [path + a -> Result(s,a)] to frontier unless Result(s,a) in frontier+explored
@@ -94,6 +94,7 @@ It always expands the path with minimum f function, where:
 	h(path) = h(s) = estimated distance to the goal
 
 It could be called Best Estimated Total Cost First. The optimal solution will be found depending of the heuristic function h. This will happen when:
+
 * h(s) < true cost
 * h never overestimate
 * h is optimistic
@@ -108,23 +109,26 @@ Since new paths are explored cheapest first, then all paths in and beyond the fr
 ### State Spaces
 
 They don't need to be in 2D, like the road problem. For example, the vacuum robot problem can have a different state space:
-	The number of positions for the robot to be (2)
-	Each space may have dirt in it or not (2^2)
-	Total number of states: 2x(2^2) = 8
+
+* The number of positions for the robot to be (2)
+* Each space may have dirt in it or not (2^2)
+* Total number of states: 2x(2^2) = 8
 
 If we add new constraints, the problem may be even more complicated:
-	The robot has a camera that can be: on, off (2)
-	The robot has a power switch that can be: on, off, sleep (3)
-	The robot has a brush that has 5 heights (5)
-	The number of positions for the robot to be (10)
-	Each space may have dirt in it or not (2^10)
-	Total number of states: 2x3x5x10x(2^10) = 307.200
+
+* The robot has a camera that can be: on, off (2)
+* The robot has a power switch that can be: on, off, sleep (3)
+* The robot has a brush that has 5 heights (5)
+* The number of positions for the robot to be (10)
+* Each space may have dirt in it or not (2^10)
+* Total number of states: 2x3x5x10x(2^10) = 307.200
 
 ### Automatic Heuristics
 
 Coming up with the heuristics is the hardest part, but it can be done automatically by simply manipulating the formal rules of the problem. This is called **generating a relaxed problem**.
 
 Example: In the sliding blocks puzzle, we can manipulate the formal rules to come up with heuristics.
+
 	a block can move A -> B
 	if (A adjacent to B)
 	and (B is blank)
@@ -134,6 +138,7 @@ Example: In the sliding blocks puzzle, we can manipulate the formal rules to com
 * _h_: `max(h1, h2)` is admissible as long as _h1_ and _h2_ are admissible, but can take long to compute
 
 This is like adding new operators, or adding new links in the state space, which will only make the problem easier and thus, never overestimating.
+
 	o ---> o ---> o
 	  \---------/
 
@@ -148,14 +153,13 @@ This is like adding new operators, or adding new links in the state space, which
 ### Implementation
 
 For a given path `A ---> S ---> F`, we have three nodes. A _node_ can be represented as a data structure (linked list) with four fields:
+
 * state: indicates the state at the end of the path (F)
 * action: action to get there (SF)
 * cost: total cost (n)
 * parent: pointer to another node (S) that has a parent that points to another node (A) that has a null parent.
 
-There is the _frontier_ and the _explored_ list.
+The _**frontier**_ has three operations: removing the best item and adding new ones and a membership test. A priority queue seems good because it knows how to keep track of best items in order. Building it from a hash table or a tree makes it possible to check for membership.
 
-The _frontier_ has three operations: removing the best item and adding new ones and a membership test. A priority queue seems good because it knows how to keep track of best items in order. Building it from a hash table or a tree makes it possible to check for membership.
-
-The _explored_ has two operations: add new members and check for membership. It can be represented as a set with a hash table or a tree.
+The _**explored**_ has two operations: add new members and check for membership. It can be represented as a set with a hash table or a tree.
 
