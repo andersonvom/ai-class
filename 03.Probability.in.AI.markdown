@@ -1,0 +1,89 @@
+## Probability in AI
+
+### What is a Problem?
+
+Coin flip probabilities (heads or tails):
+
+	P(H) = 1/2		P(T) = 1 - 1/2 = 1/2
+	P(H) = 1/4		P(T) = 1 - 1/4 = 3/4
+	P(H) = 1/2		P(H,H,H) = 1/2 * 1/2 * 1/2 = 1/8
+	
+	Xi = result of i-th coin flip	Xi = {H,T}
+	Pi(H) = 1/2, ∀i	P(X1=X2=X3=X4) = 1/16(H) + 1/16(T) = 1/8
+	
+	P({X1,X2,X3,X4} contains >= 3 H) = # three or more heads
+		H,H,H,T = 1/16
+		H,H,T,H = 1/16
+		H,T,H,H = 1/16
+		T,H,H,H = 1/16
+		H,H,H,H = 1/16
+		--------------
+		        = 5/16
+
+* Complimentary probability: _P(A) = p	=> P(¬A) = 1-p_
+* Independence: _X⊥Y  => P(X,Y) = P(X)P(Y)_
+
+	P(X1=H) = 1/2
+		if H: P(X2=H | X1=H) = 0.9
+		if T: P(X2=T | X1=T) = 0.8
+	P(X2=H) = # all combinations
+		H,H = 1/2 * 9/10 =  9/20
+		T,H = 1/2 * 2/10 =  2/20
+		------------------------
+		                 = 11/20
+
+* Total probability theorem: _P(Y) = ∑P(Y|X=i) * P(Xi)_
+* Negation: _P(¬X|Y) = 1 - P(X|Y)_
+
+	P(D1=sunny) = 0.9 # D={sunny, rainy}
+	P(D2=sunny | D1=sunny) = 0.8
+	P(D2=rainy | D1=sunny) = 1 - 0.8 = 0.2
+	
+	P(D2=sunny | D1=rainy) = 0.6
+	P(D2=rainy | D1=rainy) = 1 - 0.6 = 0.4
+	
+	P(D2=sunny) =
+		sunny,sunny = 0.9 * 0.8 = 0.72
+		rainy,sunny = 0.1 * 0.6 = 0.06
+		------------------------------
+		                        = 0.78
+	
+	P(D3=sunny) =
+		d2(sunny),d3(sunny) = 0.78 * 0.8 = 0.624
+		d2(rainy),d3(sunny) = 0.22 * 0.6 = 0.132
+		----------------------------------------
+		                                   0.756
+
+Cancer examples:
+
+	P(C)    = 0.01			# specific type of cancer
+	P(¬C)   = 1 - 0.01 = 0.99	# not having that cancer
+	P(+|C)  = 0.9			# testing positive for that cancer
+	P(-|C)  = 1 - 0.9 = 0.1		# testing negative for that cancer
+	P(+|¬C) = 0.2			# testing positive without the cancer
+	P(-|¬C) = 1 - 0.2 = 0.8		# testing negative with the cancer
+	
+	# Joint probabilities
+	P(+,C)  = P(+|C)  * P(C)  = 0.9 * 0.01 = 0.009
+	P(-,C)  = P(-|C)  * P(C)  = 0.1 * 0.01 = 0.001
+	P(+,¬C) = P(+|¬C) * P(¬C) = 0.2 * 0.99 = 0.198
+	P(-,¬C) = P(-|¬C) * P(¬C) = 0.8 * 0.99 = 0.792
+	
+	P(C|+) = P(+,C) / (P(+,C) + P(+,¬C)) = 0.009 / (0.009 + 0.198) = 0.043
+
+### Bayes Rule
+
+	P(A|B) = ( P(B|A) * P(A) ) / P(B)
+	Posterior = (Likelihood * Prior) / (Marginal Likelihood)
+	P(B) = ∑ P(B|A=a) * P(A=a)
+
+
+
+
+
+
+
+
+
+
+
